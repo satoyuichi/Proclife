@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+	<div class="container">
+	    <div class="row">
+		<div class="col s6">
+		    <!-- Switch -->
+		    <div id="switch" class="switch">
+			<label>ポジティブ
+			    <input type="checkbox">
+ 			    <span class="lever"></span>
+			</label>
+		    </div>
+		</div>
+
+		<div class="input-field col s6">
+		    <select id="annual">
+			<option value="1">一年次</option>
+			<option value="2">二年次</option>
+			<option value="3">三年次</option>
+		    </select>
+		    <label>年次</label>
+		</div>
+	    </div>
+
+	    <div id="app">
+		<div class="row">
+		    <div id="date" class="col s6"></div>
+		    <div id="time" class="col s6"></div>
+		</div>
+		<div class="row">
+		    <!-- Page Content goes here -->
+		    <div class="col s2">
+			<label for="">今日</label>
+			<div class="z-depth-2"></div>
+		    </div>
+		    <div class="col s2">
+			<label for="">今週</label>
+			<p class="z-depth-2"></p>
+		    </div>		
+		    <div class="col s2">
+			<label for="">今月</label>
+			<p class="z-depth-2"></p>
+		    </div>
+		    <div class="col s2">
+			<label for="">今年</label>
+			<p class="z-depth-2"></p>
+		    </div>
+		    <div class="col s2">
+			<label for="">プロクラ</label>
+			<p class="z-depth-2"></p>
+		    </div>
+		</div>
+		<div class="row">
+		    <div class="col s12">
+			<p class="z-depth-2">{{ message }}</p>
+		    </div>
+		</div>
+		<div class="row">
+		    <div>
+			<input type="range" id="volume" name="volume" min="0" max="11">
+			<label for="volume">Time</label>
+		    </div>
+		</div>
+	    </div>	
+	</div>
+	
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<!-- 開発バージョン、便利なコンソールの警告が含まれています -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+	 M.AutoInit ();
+
+	 document.addEventListener('DOMContentLoaded', function() {
+	     var elem = document.querySelector('#annual');
+	     var options = {
+		 classes: '',
+		 dropdownOptions: {}
+	     };
+	     var instance = M.FormSelect.init(elem, options);
+
+	     elem.addEventListener('change', function() {
+		 console.log ('hogehoge');
+	     });
+
+	     /* switch */
+	     elem = document.querySelector('#switch');
+	     elem.addEventListener('change', function() {
+		 console.log ('piyopiyo');
+	     });
+	 });
+
+	 var app = new Vue({
+	     el: '#app',
+	     data: {
+		 message: 'Hello Vue!'
+	     }
+	 })
+	</script>
+    </body>
+</html>
