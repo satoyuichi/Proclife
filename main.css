@@ -1,0 +1,11 @@
+.graph-region {
+    padding-left: 4px;
+    padding-right: 4px;
+    height: 256px;
+}
+
+.bar-graph {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
