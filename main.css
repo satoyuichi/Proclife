@@ -9,3 +9,8 @@
     width: 100%;
     height: 100%;
 }
+
+.time-and-date {
+    font-size: x-large;
+    font-family: 'MuseoModerno', cursive;
+}

@@ -4,7 +4,7 @@
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<link rel="stylesheet" href="./main.css">
-
+	<link href="https://fonts.googleapis.com/css2?family=MuseoModerno&display=swap" rel="stylesheet">
 
 	<!--Let browser know website is optimized for mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -34,7 +34,7 @@
 	    </div>
 
 	    <div id="app">
-			<div class="row">
+			<div class="row time-and-date">
 				<div id="date" class="col s2">
 					<p>{{ date }}</p>
 				</div>
@@ -46,8 +46,8 @@
 				<!-- Page Content goes here -->
 				<div v-for="item in graphs" class="col s2">
 					<label for="">{{ item.label }}</label>
-					<div class="z-depth-2 graph-region">
-						<span class="center-align bar-graph blue lighten-1">0%</span>
+					<div class="z-depth-2 graph-region" v-bind:style="{ 'padding-top': (100 - item.val) + '%'}">
+						<span class="center-align bar-graph blue lighten-1">{{ item.val }}%</span>
 					</div>
 				</div>
 			</div>
@@ -98,12 +98,12 @@
 			date: ' ',
 			time: ' ',
 			graphs: [
-				{ label: '今日' },
-				{ label: '今週' },
-				{ label: '今月' },
-				{ label: '半期' },
-				{ label: '今年' },
-				{ label: 'プロクラ' }
+				{ label: '今日', val: 0 },
+				{ label: '今週', val: 0 },
+				{ label: '今月', val: 0 },
+				{ label: '半期', val: 0 },
+				{ label: '今年', val: 0 },
+				{ label: 'プロクラ', val: 0 }
 			]
 	     },
 	 });
@@ -113,6 +113,13 @@
 			let now = new Date();
 			app.date = now.toLocaleDateString();
 			app.time = now.toLocaleTimeString();
+
+			app.graphs[0].val = Math.min(20, app.graphs[0].val + 1);
+			app.graphs[1].val = Math.min(100, app.graphs[1].val + 1);
+			app.graphs[2].val = Math.min(100, app.graphs[2].val + 1);
+			app.graphs[3].val = Math.min(100, app.graphs[3].val + 1);
+			app.graphs[4].val = Math.min(100, app.graphs[4].val + 1);
+			app.graphs[5].val = Math.min(100, app.graphs[5].val + 1);
 		},
 		1000
 	 );
