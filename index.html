@@ -47,7 +47,7 @@
 				<div v-for="item in graphs" class="col s2">
 					<label for="">{{ item.label }}</label>
 					<div class="z-depth-2 graph-region" v-bind:style="{ 'padding-top': (100 - item.val) + '%'}">
-						<span class="center-align bar-graph blue lighten-1">{{ item.val }}%</span>
+						<span class="center-align bar-graph blue lighten-1">{{ item.val.toFixed(2) }}%</span>
 					</div>
 				</div>
 			</div>
@@ -65,6 +65,7 @@
 	    </div>	
 	</div>
 	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.28/dayjs.min.js"></script>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<!-- 開発バージョン、便利なコンソールの警告が含まれています -->
@@ -81,20 +82,18 @@
 	     var instance = M.FormSelect.init(elem, options);
 
 	     elem.addEventListener('change', function() {
-			console.log ('hogehoge');
 	     });
 
 	     /* switch */
 	     elem = document.querySelector('#switch');
 	     elem.addEventListener('change', function() {
-			console.log ('piyopiyo');
 	     });
 	 });
 
 	 var app = new Vue({
 	     el: '#app',
 	     data: {
-		 	message: 'Hello Vue!',
+		 	message: 'ワンポイントアドバイス',
 			date: ' ',
 			time: ' ',
 			graphs: [
@@ -102,7 +101,7 @@
 				{ label: '今週', val: 0 },
 				{ label: '今月', val: 0 },
 				{ label: '半期', val: 0 },
-				{ label: '今年', val: 0 },
+				{ label: '今年度', val: 0 },
 				{ label: 'プロクラ', val: 0 }
 			]
 	     },
@@ -110,15 +109,20 @@
 
 	 window.setInterval (
 	 	function () {
-			let now = new Date();
-			app.date = now.toLocaleDateString();
-			app.time = now.toLocaleTimeString();
+			let now = dayjs();
+			app.date = now.format('YYYY/MM/DD');
+			app.time = now.format('HH:mm:ss');
 
-			app.graphs[0].val = Math.min(20, app.graphs[0].val + 1);
-			app.graphs[1].val = Math.min(100, app.graphs[1].val + 1);
-			app.graphs[2].val = Math.min(100, app.graphs[2].val + 1);
-			app.graphs[3].val = Math.min(100, app.graphs[3].val + 1);
-			app.graphs[4].val = Math.min(100, app.graphs[4].val + 1);
+			app.graphs[0].val = 100 * (Math.min(now, dayjs().hour(17).minute(30)) - dayjs().hour(9).minute(30)) / (dayjs().hour(17).minute(30) - dayjs().hour(9).minute(30));
+			app.graphs[1].val = 100 * (now - dayjs().startOf('w')) / (dayjs().endOf('w').subtract(2, 'day') - dayjs().startOf('w'));
+			app.graphs[2].val = 100 * (now - dayjs().startOf('M')) / (dayjs().endOf('M') - dayjs().startOf('M'));
+			if (now.isBefore('2020-9-30')) {
+				app.graphs[3].val = 100 * (now - dayjs('2020-04-13')) / (dayjs('2020-09-30') - dayjs('2020-04-13'));
+			}
+			else {
+				app.graphs[3].val = 100 * (now - dayjs('2020-10-01')) / (dayjs('2021-03-20') - dayjs('2020-10-01'));
+			}
+			app.graphs[4].val = 100 * (now - dayjs('2020-04-13')) / (dayjs('2021-03-20') - dayjs('2020-04-03'));
 			app.graphs[5].val = Math.min(100, app.graphs[5].val + 1);
 		},
 		1000
