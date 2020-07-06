@@ -124,7 +124,7 @@
 		 // 今日のグラフ
 		 app.graphs[0].val = 100 * (Math.min(now, dayjs().hour(17).minute(30)) - dayjs().hour(9).minute(30)) / (dayjs().hour(17).minute(30) - dayjs().hour(9).minute(30));
 		 // 今週のグラフ
-		 app.graphs[1].val = 100 * (now - dayjs().startOf('w')) / (dayjs().endOf('w').subtract(2, 'day') - dayjs().startOf('w'));
+		 app.graphs[1].val = 100 * (now - dayjs().startOf('w').day(2)) / (dayjs().startOf('w').day(6) - dayjs().startOf('w').day(2));
 		 // 今月のグラフ
 		 app.graphs[2].val = 100 * (now - dayjs().startOf('M')) / (dayjs().endOf('M') - dayjs().startOf('M'));
 		 // 半期のグラフ
