@@ -54,16 +54,16 @@
 		<div class="row">
 		    <div class="col s12">
 			<label for="">天の声</label>
-			<p class="z-depth-2">{{ advice }}</p>
-			<button v-on:click="updateAdvice" class="waves-effect waves-light col btn s2 offset-s10">もう一声</button>
+			<p class="z-depth-2 col s12" style="height:128px;">{{ advice }}</p>
+			<button v-on:click="updateAdvice" class="waves-effect waves-light btn col s2 offset-s10">もう一声</button>
 		    </div>
 		</div>
-		<div class="row">
-		    <div>
-			<input type="range" id="volume" name="volume" min="0" max="11">
-			<label for="volume">Time</label>
-		    </div>
-		</div>
+		<!-- <div class="row">
+		     <div>
+		     <input type="range" id="volume" name="volume" min="0" max="11">
+		     <label for="volume">Time</label>
+		     </div>
+		     </div> -->
 	    </div>	
 	</div>
 	
@@ -71,8 +71,24 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script>
-	 M.AutoInit ();
+	 let onePointAdvices = [
+	     { advice: "定期的に PJS の見直しをしよう。" },
+	     { advice: "日誌の記入をしよう。" },
+	     { advice: "ググる側からググられる側になろう。" },
+	     { advice: "小さく！細かく！早く！" },
+	     { advice: "ポートフォリオは随時更新しておこう。後でまとめようと思うと忘れちゃうぞ。" },
 
+	     { advice: "出した成果は進学やインターン/就職にも使える。三年次の春までに 3 つ以上を目指そう！日誌やポートフォリオも後で役に立つ！" },
+	     { advice: "LT 大会や成果発表会でプレゼンの腕を磨こう！大会やコンテストの実績を積むのも良し！" },
+	     { advice: "早めにオープンキャンパスや説明会などに行っておこう。" },
+	     { advice: "腕試しにインターン/アルバイトにも挑戦しよう。実績にもなるぞ！" },
+	     { advice: "6 月末にはリストアップしておきたい。調査書や評定平均を出すために8/15までのレポートを終わらせる必要もある。" },
+	     { advice: "実績があれば安心！日誌やポートフォリオがお粗末だと泣きを見るぞ！" },
+	     { advice: "" },
+	 ];
+	 
+	 M.AutoInit ();
+	 
 	 let annual = 0;
 
 	 document.addEventListener('DOMContentLoaded', function() {
@@ -85,6 +101,7 @@
 
 	     annualElem.addEventListener('change', function() {
 		 annual = parseInt(this.value);
+		 console.log(annual);
 	     });
 
 	     /* switch */
@@ -96,7 +113,7 @@
 	 let app = new Vue({
 	     el: '#app',
 	     data: {
-		 advice: 'ワンポイントアドバイス',
+		 advice: onePointAdvices[0].advice,
 		 date: ' ',
 		 time: ' ',
 		 graphs: [
@@ -110,7 +127,8 @@
 	     },
 	     methods: {
 		 updateAdvice: function(event) {
-		     this.advice = "";
+		     let index = Math.floor(Math.random() * (onePointAdvices.length - 1 - 0)) + 0;
+		     this.advice = onePointAdvices[index].advice;
 		 }
 	     }
 	 });
@@ -122,22 +140,22 @@
 		 app.time = now.format('HH:mm:ss');
 
 		 // 今日のグラフ
-		 app.graphs[0].val = 100 * (Math.min(now, dayjs().hour(17).minute(30)) - dayjs().hour(9).minute(30)) / (dayjs().hour(17).minute(30) - dayjs().hour(9).minute(30));
+		 app.graphs[0].val = Math.max(0, 100 * (Math.min(now, dayjs().hour(17).minute(30)) - dayjs().hour(9).minute(30)) / (dayjs().hour(17).minute(30) - dayjs().hour(9).minute(30)));
 		 // 今週のグラフ
-		 app.graphs[1].val = 100 * (now - dayjs().startOf('w').day(2)) / (dayjs().startOf('w').day(6) - dayjs().startOf('w').day(2));
+		 app.graphs[1].val = Math.max(0, 100 * (now - dayjs().startOf('w').day(2)) / (dayjs().startOf('w').day(6) - dayjs().startOf('w').day(2)));
 		 // 今月のグラフ
-		 app.graphs[2].val = 100 * (now - dayjs().startOf('M')) / (dayjs().endOf('M') - dayjs().startOf('M'));
+		 app.graphs[2].val = Math.max(0, 100 * (now - dayjs().startOf('M')) / (dayjs().endOf('M') - dayjs().startOf('M')));
 		 // 半期のグラフ
 		 if (now.isBefore('2020-9-30')) {
-		     app.graphs[3].val = 100 * (now - dayjs('2020-04-13')) / (dayjs('2020-09-30') - dayjs('2020-04-13'));
+		     app.graphs[3].val = Math.max(0, 100 * (now - dayjs('2020-04-13')) / (dayjs('2020-09-30') - dayjs('2020-04-13')));
 		 }
 		 else {
-		     app.graphs[3].val = 100 * (now - dayjs('2020-10-01')) / (dayjs('2021-03-20') - dayjs('2020-10-01'));
+		     app.graphs[3].val = Math.max(0, 100 * (now - dayjs('2020-10-01')) / (dayjs('2021-03-20') - dayjs('2020-10-01')));
 		 }
 		 // 今年度のグラフ
-		 app.graphs[4].val = 100 * (now - dayjs('2020-04-13')) / (dayjs('2021-03-20') - dayjs('2020-04-03'));
+		 app.graphs[4].val = Math.max(0, 100 * (now - dayjs('2020-04-13')) / (dayjs('2021-03-20') - dayjs('2020-04-03')));
 		 // プロクラのグラフ
-		 app.graphs[5].val = 100 * (now - dayjs('2020-04-01').subtract(annual, 'y')) / (dayjs('2021-03-31') - dayjs('2020-04-01').subtract(annual, 'y'));
+		 app.graphs[5].val = Math.max(0, 100 * (now - dayjs('2020-04-01').subtract(annual, 'y')) / (dayjs('2021-03-31') - dayjs('2020-04-01').subtract(annual, 'y')));
 	     },
 	     1000
 	 );
