@@ -12,20 +12,6 @@
 
     <body>
 	<div class="container">
-	    <div class="row">
-		<div class="valign-wrapper col s6">
-		</div>
-
-		<div class="input-field col s6">
-		    <select id="annual">
-			<option value="0">一年次</option>
-			<option value="1">二年次</option>
-			<option value="2">三年次</option>
-		    </select>
-		    <label>年次</label>
-		</div>
-	    </div>
-
 	    <div id="app">
 		<div class="row time-and-date">
 		    <div id="date" class="col s3">
@@ -34,29 +20,39 @@
 		    <div id="time" class="col s3">
 			<p>{{ time }}</p>
 		    </div>
+
+		    <div class="input-field col s6">
+		      <select id="annual">
+			<option value="0">一年次</option>
+			<option value="1">二年次</option>
+			<option value="2">三年次</option>
+		      </select>
+		      <label>年次</label>
+		    </div>
 		</div>
+
 		<div class="row">
-		    <!-- Page Content goes here -->
-		    <div v-for="item in graphs" class="col s2">
+		    <div v-for="item in graphs" class="col s1">
 			<label for="">{{ item.label }}</label>
 			<div class="z-depth-2 graph-region" v-bind:style="{ 'padding-top': (256 * (1.0 - item.val * 0.01)) + 'px'}">
 			    <span class="center-align bar-graph blue lighten-1">{{ item.val.toFixed(2) }}%</span>
 			</div>
 		    </div>
+		    <div class="col s6">
+		      <label for="">天の声</label>
+		      <p class="z-depth-2 col s12" style="height:128px;">{{ advice }}</p>
+		      <button v-on:click="updateAdvice" class="waves-effect waves-light btn col s2 offset-s10">もう一声</button>
+		  </div>
 		</div>
+
 		<div class="row">
 		    <div class="col s12">
-			<label for="">天の声</label>
-			<p class="z-depth-2 col s12" style="height:128px;">{{ advice }}</p>
-			<button v-on:click="updateAdvice" class="waves-effect waves-light btn col s2 offset-s10">もう一声</button>
+		      <!-- <div class="carousel carousel-slider"> -->
+		      <div class="carousel">
+			<a v-for="n in 8" class="carousel-item" style="width: 40%"><img class="z-depth-2" :src="'./slids/slide_' + ('00' + n).slice(-2) + '.png'"></a>
+		      </div>
 		    </div>
 		</div>
-		<!-- <div class="row">
-		     <div>
-		     <input type="range" id="volume" name="volume" min="0" max="11">
-		     <label for="volume">Time</label>
-		     </div>
-		     </div> -->
 	    </div>	
 	</div>
 	
