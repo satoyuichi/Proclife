@@ -15,27 +15,35 @@ const ONE_POINT_ADVICES = [
     { advice: "まずは、「プログラミング入門 Web アプリ」の第２章までは理解しておこう！" },
 ];
 
+function getRandom(n) {
+    return Math.floor(Math.random() * (n - 1 - 0)) + 0;
+}
+
 M.AutoInit ();
 
 let annual = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
     let annualElem = document.querySelector('#annual');
-    let options = {
+    let annualOptions = {
 	classes: '',
 	dropdownOptions: {}
     };
-    let instance = M.FormSelect.init(annualElem, options);
+    M.FormSelect.init(annualElem, annualOptions);
 
     annualElem.addEventListener('change', function() {
 	annual = parseInt(this.value);
 	console.log(annual);
     });
 
-    /* switch */
-    switchElem = document.querySelector('#switch');
-    switchElem.addEventListener('change', function() {
-    });
+    let carouselElem = document.querySelector('.carousel');
+    let carouselOptions = {
+	duration: 100,
+	padding: 0,
+	numVisible: 3,
+    };
+    let carouselInstance = M.Carousel.init(carouselElem, carouselOptions);
+    carouselInstance.set(getRandom(8));
 });
 
 let app = new Vue({
@@ -55,7 +63,7 @@ let app = new Vue({
     },
     methods: {
 	updateAdvice: function(event) {
-	    let index = Math.floor(Math.random() * (ONE_POINT_ADVICES.length - 1 - 0)) + 0;
+	    let index = getRandom(ONE_POINT_ADVICES.length);
 	    this.advice = ONE_POINT_ADVICES[index].advice;
 	}
     }
