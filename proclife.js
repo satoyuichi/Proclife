@@ -82,16 +82,16 @@ window.setInterval (
 	// 今月のグラフ
 	app.graphs[2].val = Math.max(0, 100 * (now - dayjs().startOf('M')) / (dayjs().endOf('M') - dayjs().startOf('M')));
 	// 半期のグラフ
-	if (now.isBefore('2020-9-30')) {
-	    app.graphs[3].val = Math.max(0, 100 * (now - dayjs('2020-04-13')) / (dayjs('2020-09-30') - dayjs('2020-04-13')));
+	if (now.isBefore('2021-9-30')) {
+	    app.graphs[3].val = Math.max(0, 100 * (now - dayjs('2021-04-21')) / (dayjs('2021-09-30') - dayjs('2021-04-21')));
 	}
 	else {
-	    app.graphs[3].val = Math.max(0, 100 * (now - dayjs('2020-10-01')) / (dayjs('2021-03-20') - dayjs('2020-10-01')));
+	    app.graphs[3].val = Math.max(0, 100 * (now - dayjs('2021-10-01')) / (dayjs('2022-03-18') - dayjs('2021-10-01')));
 	}
 	// 今年度のグラフ
-	app.graphs[4].val = Math.max(0, 100 * (now - dayjs('2020-04-13')) / (dayjs('2021-03-20') - dayjs('2020-04-03')));
+	app.graphs[4].val = Math.max(0, 100 * (now - dayjs('2021-04-21')) / (dayjs('2022-03-18') - dayjs('2021-04-21')));
 	// プロクラのグラフ
-	app.graphs[5].val = Math.max(0, 100 * (now - dayjs('2020-04-01').subtract(annual, 'y')) / (dayjs('2021-03-31') - dayjs('2020-04-01').subtract(annual, 'y')));
+	app.graphs[5].val = Math.max(0, 100 * (now - dayjs('2021-04-01').subtract(annual, 'y')) / (dayjs('2022-03-31') - dayjs('2021-04-01').subtract(annual, 'y')));
     },
     1000
 );
