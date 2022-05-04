@@ -12,27 +12,6 @@
 
     <body>
 	<div class="container">
-	    <div class="row">
-		<div class="valign-wrapper col s6">
-		    <!-- Switch -->
-		    <div id="switch" class="switch">
-			<label>ポジティブ
-			    <input type="checkbox">
-			    <span class="lever"></span>
-			</label>
-		    </div>
-		</div>
-
-		<div class="input-field col s6">
-		    <select id="annual">
-			<option value="0">一年次</option>
-			<option value="1">二年次</option>
-			<option value="2">三年次</option>
-		    </select>
-		    <label>年次</label>
-		</div>
-	    </div>
-
 	    <div id="app">
 		<div class="row time-and-date">
 		    <div id="date" class="col s3">
@@ -41,124 +20,45 @@
 		    <div id="time" class="col s3">
 			<p>{{ time }}</p>
 		    </div>
+
+		    <div class="input-field col s6">
+		      <select id="annual">
+			<option value="0">一年次</option>
+			<option value="1">二年次</option>
+			<option value="2">三年次</option>
+		      </select>
+		      <label>年次</label>
+		    </div>
 		</div>
+
 		<div class="row">
-		    <!-- Page Content goes here -->
-		    <div v-for="item in graphs" class="col s2">
+		    <div v-for="item in graphs" class="col s1">
 			<label for="">{{ item.label }}</label>
 			<div class="z-depth-2 graph-region" v-bind:style="{ 'padding-top': (256 * (1.0 - item.val * 0.01)) + 'px'}">
 			    <span class="center-align bar-graph blue lighten-1">{{ item.val.toFixed(2) }}%</span>
 			</div>
 		    </div>
+		    <div class="col s6">
+		      <label for="">天の声</label>
+		      <p class="z-depth-2 col s12" style="height:128px;">{{ advice }}</p>
+		      <button v-on:click="updateAdvice" class="waves-effect waves-light btn col s2 offset-s10">もう一声</button>
+		  </div>
 		</div>
+
 		<div class="row">
 		    <div class="col s12">
-			<label for="">天の声</label>
-			<p class="z-depth-2 col s12" style="height:128px;">{{ advice }}</p>
-			<button v-on:click="updateAdvice" class="waves-effect waves-light btn col s2 offset-s10">もう一声</button>
+		      <!-- <div class="carousel carousel-slider"> -->
+		      <div class="carousel">
+			<a v-for="n in 8" class="carousel-item" style="width: 40%"><img class="z-depth-2" :src="'./slids/slide_' + ('00' + n).slice(-2) + '.png'"></a>
+		      </div>
 		    </div>
 		</div>
-		<!-- <div class="row">
-		     <div>
-		     <input type="range" id="volume" name="volume" min="0" max="11">
-		     <label for="volume">Time</label>
-		     </div>
-		     </div> -->
 	    </div>	
 	</div>
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.28/dayjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script>
-	 let onePointAdvices = [
-	     { advice: "定期的に PJS の見直しをしよう。" },
-	     { advice: "日誌の記入をしよう。" },
-	     { advice: "ググる側からググられる側になろう。" },
-	     { advice: "小さく！細かく！早く！" },
-	     { advice: "ポートフォリオは随時更新しておこう。後でまとめようと思うと忘れちゃうぞ。" },
-
-	     { advice: "出した成果は進学やインターン/就職にも使える。三年次の春までに 3 つ以上を目指そう！日誌やポートフォリオも後で役に立つ！" },
-	     { advice: "LT 大会や成果発表会でプレゼンの腕を磨こう！大会やコンテストの実績を積むのも良し！" },
-	     { advice: "早めにオープンキャンパスや説明会などに行っておこう。" },
-	     { advice: "腕試しにインターン/アルバイトにも挑戦しよう。実績にもなるぞ！" },
-	     { advice: "6 月末にはリストアップしておきたい。調査書や評定平均を出すために8/15までのレポートを終わらせる必要もある。" },
-	     { advice: "実績があれば安心！日誌やポートフォリオがお粗末だと泣きを見るぞ！" },
-	     { advice: "" },
-	 ];
-	 
-	 M.AutoInit ();
-	 
-	 let annual = 0;
-
-	 document.addEventListener('DOMContentLoaded', function() {
-	     let annualElem = document.querySelector('#annual');
-	     let options = {
-		 classes: '',
-		 dropdownOptions: {}
-	     };
-	     let instance = M.FormSelect.init(annualElem, options);
-
-	     annualElem.addEventListener('change', function() {
-		 annual = parseInt(this.value);
-		 console.log(annual);
-	     });
-
-	     /* switch */
-	     switchElem = document.querySelector('#switch');
-	     switchElem.addEventListener('change', function() {
-	     });
-	 });
-
-	 let app = new Vue({
-	     el: '#app',
-	     data: {
-		 advice: onePointAdvices[0].advice,
-		 date: ' ',
-		 time: ' ',
-		 graphs: [
-		     { label: '今日', val: 0 },
-		     { label: '今週', val: 0 },
-		     { label: '今月', val: 0 },
-		     { label: '半期', val: 0 },
-		     { label: '今年度', val: 0 },
-		     { label: 'プロクラ', val: 0 }
-		 ]
-	     },
-	     methods: {
-		 updateAdvice: function(event) {
-		     let index = Math.floor(Math.random() * (onePointAdvices.length - 1 - 0)) + 0;
-		     this.advice = onePointAdvices[index].advice;
-		 }
-	     }
-	 });
-
-	 window.setInterval (
-	     function () {
-		 let now = dayjs();
-		 app.date = now.format('YYYY/MM/DD');
-		 app.time = now.format('HH:mm:ss');
-
-		 // 今日のグラフ
-		 app.graphs[0].val = Math.max(0, 100 * (Math.min(now, dayjs().hour(17).minute(30)) - dayjs().hour(9).minute(30)) / (dayjs().hour(17).minute(30) - dayjs().hour(9).minute(30)));
-		 // 今週のグラフ
-		 app.graphs[1].val = Math.max(0, 100 * (now - dayjs().startOf('w').day(2)) / (dayjs().startOf('w').day(6) - dayjs().startOf('w').day(2)));
-		 // 今月のグラフ
-		 app.graphs[2].val = Math.max(0, 100 * (now - dayjs().startOf('M')) / (dayjs().endOf('M') - dayjs().startOf('M')));
-		 // 半期のグラフ
-		 if (now.isBefore('2020-9-30')) {
-		     app.graphs[3].val = Math.max(0, 100 * (now - dayjs('2020-04-13')) / (dayjs('2020-09-30') - dayjs('2020-04-13')));
-		 }
-		 else {
-		     app.graphs[3].val = Math.max(0, 100 * (now - dayjs('2020-10-01')) / (dayjs('2021-03-20') - dayjs('2020-10-01')));
-		 }
-		 // 今年度のグラフ
-		 app.graphs[4].val = Math.max(0, 100 * (now - dayjs('2020-04-13')) / (dayjs('2021-03-20') - dayjs('2020-04-03')));
-		 // プロクラのグラフ
-		 app.graphs[5].val = Math.max(0, 100 * (now - dayjs('2020-04-01').subtract(annual, 'y')) / (dayjs('2021-03-31') - dayjs('2020-04-01').subtract(annual, 'y')));
-	     },
-	     1000
-	 );
-	</script>
+	<script src="./proclife.js"></script>
     </body>
 </html>
